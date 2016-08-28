@@ -1,8 +1,7 @@
 // #docplaster
 // #docregion final
-// #docregion imports
 import { Component } from '@angular/core';
-// #enddocregion imports
+
 import { Hero } from './hero';
 
 @Component({
@@ -17,12 +16,10 @@ import { Hero } from './hero';
       </li>
   </ul>
   // #docregion message
-  <p *ngIf="heroes.length
- > 3">There are many heroes!</p>
+  <p *ngIf="heroes.length > 3">There are many heroes!</p>
   // #enddocregion message
 `
 })
-
 export class AppComponent {
   title = 'Tour of Heroes';
   heroes = [

@@ -15,9 +15,9 @@ block includes
   desire many of the same transformations repeatedly, both within and across many applications.
   We almost think of them as styles.
   In fact, we'd like to apply them in our HTML templates as we do styles.
-p.
+
   Introducing Angular pipes, a way to write display-value transformations that we can declare in our HTML!
-  Try the #[+liveExampleLink2()].
+  Try the <live-example></live-example>.
 
 .l-main-section
 :marked
@@ -36,8 +36,16 @@ p.
 
 :marked
   Inside the interpolation expression we flow the component's `birthday` value through the
-  [pipe operator](./template-syntax.html#pipe) ( | ) to the [Date pipe](../api/common/DatePipe-class.html)
+  [pipe operator](./template-syntax.html#pipe) ( | ) to the [Date pipe](../api/common/index/DatePipe-class.html)
   function on the right. All pipes work this way.
+
+.l-sub-section
+  :marked
+    The `Date` and `Currency` pipes need the **ECMAScript Internationalization API**.
+    Safari and other older browsers don't support it. We can add support with a polyfill.
+
+  code-example(language="html").
+    &lt;script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"&gt;&lt;/script&gt;
 
 .l-main-section
 :marked
@@ -48,7 +56,7 @@ p.
 
 .l-sub-section
   :marked
-    Learn more about these and many other built-in pipes in the  the [API Reference](../api/#!?apiFilter=pipe);
+    Learn more about these and many other built-in pipes in the [API Reference](../api/#!?apiFilter=pipe);
     filter for entries that include the word "pipe".
 
     Angular 2 doesn't have a `FilterPipe` or an `OrderByPipe` for reasons explained in an [appendix below](#no-filter-pipe).
@@ -95,7 +103,7 @@ figure.image-display
 
 .l-sub-section
   :marked
-    Learn more about the `DatePipes` format options in the [API Docs](../api/common/DatePipe-class.html).
+    Learn more about the `DatePipes` format options in the [API Docs](../api/common/index/DatePipe-class.html).
 
 :marked
   ## Chaining pipes
@@ -158,21 +166,20 @@ figure.image-display
   Two things to note:
   1. We use our custom pipe the same way we use the built-in pipes.
 
-  1. We must include our pipe in the `pipes` #{_array} of the `@Component` #{_decorator}.
+  1. We must include our pipe in the `declarations` #{_array} of the AppModule.
 
 .callout.is-helpful
-  header Remember the pipes #{_array}!
+  header Remember the declarations #{_array}!
   :marked
     Angular reports an error if we neglect to list our custom pipe.
     We didn't list the `DatePipe` in our previous example because all
     Angular built-in pipes are pre-registered.
     Custom pipes must be registered manually.
 
-p.
-  If we try the #[+liveExampleLink()],
+:marked
+  If we try the <live-example></live-example>,
   we can probe its behavior by changing the value and the optional exponent in the template.
 
-:marked
   ## Power Boost Calculator (extra-credit)
 
   It's not much fun updating the template to test our custom pipe.
@@ -219,10 +226,10 @@ a#change-detection
   Here's the `FlyingHeroesPipe` implementation which follows the pattern for custom pipes we saw earlier.
 +makeExample('pipes/ts/app/flying-heroes.pipe.ts', 'pure', 'app/flying-heroes.pipe.ts')(format='.')
 
-p.
-  When we run the sample now we see odd behavior (try it in the #[+liveExampleLink()]).
-  Every hero we add is a flying hero but none of them are displayed.
 :marked
+  When we run the sample now we see odd behavior (try it in the <live-example></live-example>).
+  Every hero we add is a flying hero but none of them are displayed.
+
   Although we're not getting the behavior we want, Angular isn't broken.
   It's just using a different change detection algorithm &mdash; one that ignores changes to the list or any of its items.
 
@@ -253,7 +260,7 @@ figure.image-display
   More often we don't know when the data have changed,
   especially in applications that mutate data in many ways,
   perhaps in application locations far away.
-  A component is such an application usually can't know about those changes.
+  A component in such an application usually can't know about those changes.
   Moreover, it's unwise to distort our component design to accommodate a pipe.
   We strive as much as possible to keep the component class independent of the HTML.
   The component should be unaware of pipes.
@@ -327,12 +334,11 @@ block pure-change
 +makeExample('pipes/ts/app/flying-heroes.pipe.ts','filter')(format='.')
 
   We can derive a `FlyingHeroesImpureComponent` that we derive from the `FlyingHeroesComponent`.
-+makeExample('pipes/ts/app/flying-heroes.component.ts','impure-component','app/flying-heroes.component.ts (FlyingHeroesImpureComponent)')(format='.')
-p.
-  The only substantive change is the pipe.
-  We can confirm in the #[+liveExampleLink()] that the #[i flying heroes]
-  display updates as we enter new heroes even when we mutate the
-  #[code heroes] #{_array}.
++makeExample('pipes/ts/app/flying-heroes-impure.component.html','template-flying-heroes','app/flying-heroes-impure.component.html (FlyingHeroesImpureComponent)')(format='.')
+:marked
+  The only substantive change is the pipe in the template.
+  We can confirm in the <live-example></live-example> that the _flying heroes_
+  display updates as we enter new heroes even when we mutate the `heroes` #{_array}.
 
 - var _dollar = _docsFor === 'ts' ? '$' : '';
 h3#async-pipe The impure #[i AsyncPipe]
@@ -397,7 +403,7 @@ figure.image-display
 .callout.is-helpful
   header Debugging with the json pipe
   :marked
-    The [JsonPipe](../api/common/JsonPipe-class.html)
+    The [JsonPipe](../api/common/index/JsonPipe-class.html)
     provides an easy way to diagnosis a mysteriously failing data binding or
     inspect an object for future binding.
 

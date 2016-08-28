@@ -1,4 +1,6 @@
 # Angular.io
+[![Build Status][travis-badge]][travis-badge-url]
+
 Angular.io is site for Angular 2 **documentation** . 
 
 This site also includes links to other helpful angular resources including 
@@ -22,18 +24,18 @@ Learn how to [contribute to Angular.io](https://github.com/angular/angular.js/bl
 ## Development Setup
 This site relies heavily on node and npm.
 
-1. Make sure you are using the latest node and npm; 
+1. Make sure you are using at least node v.5+ and latest npm; 
 if not install [nvm](https://github.com/creationix/nvm) to get node going on your machine.
 
-1. install these npm packages *globally*: `npm install -g harp gulp protractor`
+1. Install these npm packages *globally*: `npm install -g harp gulp`
 
-1. clone this repo and the [angular source code repo](https://github.com/angular/angular) to the same parent directory.
-The two cloned repo directories must be sibling.
+1. Clone this repo, the [angular/angular source code repo](https://github.com/angular/angular), and the [dart-lang/angular2 source code repo](https://github.com/dart-lang/angular2) to the same parent directory.
+The three cloned repo directories must be siblings, with the latter two repo directories named **angular** and **angular-dart**, respectively.
 
 1. cd into root directory `angular.io/`
 
 1. install the *all-docs* local packages by running `npm install`
-> If running node v.5+, you probably must rebuild `node-sass` in a separate step: `npm rebuild node-sass`
+> You probably must rebuild `node-sass` in a separate step: `npm rebuild node-sass`
 
 1. See [below](#code-sample-development) for code sample development preparation.
 
@@ -96,7 +98,7 @@ Look at the scripts in `package.json` for other options.
 Also, open any `plunkr.no-link.html` to see the code execute in plunker
 (you may have to run `gulp build-plunkers` first to create/update).
 
-You may want to check that your example is free of lint errors.
+You must check that your example is free of lint errors.
 - `gulp lint`
 
 ### Sample end-to-end tests
@@ -109,6 +111,30 @@ All samples should be covered to some degree by end-to-end tests:
 - `gulp run-e2e-tests --fast` to ignore npm install, webdriver update and boilerplate copy
 
 Any combination of options is possible.
+
+### Resetting the project
+This project generates a lot of untracked files, if you wish to reset it to a mint state, you can run:
+
+- `git clean -xdf`
+
+Also, there is a script available for Linux, OSX and Windows Gitbash users that will setup the project using the steps shown in this section:
+
+- `./scripts/install.sh`
+
+### Run with current build instead of release packages
+Can switch the `@angular` packages in `~/public/docs/_examples/node_modules` to the current build packages with
+```
+gulp install-example-angular --build
+```
+Restore to RELEASE packages with
+```
+gulp install-example-angular
+```
+>These commands will fail if something is locking any of the packages ... as an IDE often does.
+>
+>The symptom typically is an error trying to `rm -rf node_modules/@angular`.
+>
+>_Solution_: unlock the hold on the package(s). In VS Code, re-load the window (`cmd-P` then enter `>relow`).
 
 
 ## Technology Used
@@ -125,3 +151,6 @@ Any combination of options is possible.
 
 ## License
 Powered by Google ©2010-2016. Code licensed under an [MIT-style License](https://github.com/angular.io/blob/master/LICENSE). Documentation licensed under [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/).
+
+[travis-badge]: https://travis-ci.org/angular/angular.io.svg?branch=master
+[travis-badge-url]: https://travis-ci.org/angular/angular.io

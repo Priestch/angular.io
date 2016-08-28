@@ -4,7 +4,7 @@ include ../_util-fns
   Our app is growing.
   Use cases are flowing in for reusing components, passing data to components, and creating more reusable assets. Let's separate the heroes list from the hero details and make the details component reusable.
 
-p Run the #[+liveExampleLink2('', 'toh-3')] for this part.
+  Run the <live-example></live-example> for this part.
 
 .l-main-section
 :marked
@@ -62,7 +62,7 @@ code-example(language="bash").
 
     All of our component names end in "Component".  All of our component file names end in "_component".
 
-    We spell our filenames in lower **underscore case** 
+    We spell our filenames in lower **underscore case**
     (AKA **[snake_case](../guide/glossary.html#!#snake_case)**) so we don't worry about
     case sensitivity on the server or in source control.
 
@@ -164,7 +164,7 @@ code-example(format=".").
 :marked
  The two components won't coordinate until we bind the `selectedHero` property of the `AppComponent`
  to the `HeroDetailComponent` element's `hero` property  like this:
-code-example(format=".")
+code-example(format=".").
   &lt;my-hero-detail [hero]="selectedHero">&lt;/my-hero-detail>
 :marked
   The `AppComponent`’s template should now look like this
@@ -240,7 +240,7 @@ code-example(format=".")
   * We learned to bind a parent component to a child component.
   * We learned to declare the application directives we need in a `directives` list.
 
-p Run the #[+liveExampleLink2('', 'toh-3')] for this part.
+  Run the <live-example></live-example> for this part.
 
 .l-main-section
 :marked

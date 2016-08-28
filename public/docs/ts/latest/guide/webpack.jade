@@ -233,9 +233,10 @@ a(id="common-configuration")
 
 :marked
   * ts - a loader to transpile our Typescript code to ES5, guided by the `tsconfig.json` file
+  * angular2-template-loader - loads angular components' template and styles
   * html - for component templates
   * images/fonts - Images and fonts are bundled as well.
-  * css - The pattern matches application-wide styles; the second handles component-scoped styles (the ones specified in a component's `styleUrls` metadata property).
+  * css - The pattern matches application-wide styles; the second handles component-scoped styles (the ones specified in a component's `styleUrls` metadata property)
 .l-sub-section
   :marked
     The first pattern excludes `.css` files within the `/src/app` directories where our component-scoped styles sit.
@@ -244,6 +245,10 @@ a(id="common-configuration")
     
     The second pattern filters for component-scoped styles and loads them as strings via the `raw` loader &mdash;
     which is what Angular expects to do with styles specified in a `styleUrls` metadata property.
+
+.l-sub-section
+  :marked
+    Multiple loaders can be also chained using the array notation.
 
 :marked
   Finally we add two plugins:
@@ -355,8 +360,8 @@ a(id="test-configuration")
   
   We don't need much configuration to run unit tests. 
   We don't need the loaders and plugins that we declared for our development and production builds.
-  We probably don't need to load and process `css` files for unit tests and doing so would slow us down;
-  we'll use the `null` loader for all CSS.
+  We probably don't need to load and process the application-wide styles files for unit tests and doing so would slow us down;
+  we'll use the `null` loader for those CSS.
   
   We could merge our test configuration into the `webpack.common` configuration and override the parts we don't want or need.
   But it might be simpler to start over with a completely fresh configuration.
@@ -412,12 +417,14 @@ code-example(format="").
   `webpack/ts/src/app/app.component.ts,
   webpack/ts/src/app/app.component.html,
   webpack/ts/src/app/app.component.css,
-  webpack/ts/src/app/app.component.spec.ts`,
+  webpack/ts/src/app/app.component.spec.ts,
+  webpack/ts/src/app/app.module.ts`,
   null,
   `src/app/app.component.ts,
   src/app/app.component.html,
   src/app/app.component.css,
-  src/app/app.component.spec.ts`
+  src/app/app.component.spec.ts,
+  src/app/app.module.ts`
 )
 
 
@@ -434,6 +441,7 @@ p.
   `src/vendor.ts,
   src/polyfills.ts`
 )
+<a id="highlights"></a>
 :marked
   ### Highlights:
   
@@ -441,9 +449,10 @@ p.
   The `HtmlWebpackPlugin` inserts them dynamically at runtime.
     
   * The `AppComponent` in `app.component.ts` imports the application-wide css with a simple `import` statement.
-  
-  * The `AppComponent` itself has its own html template and css files which we load with the `require()` method
-  supplied by Webpack. Webpack stashes those component-scoped files in the `app.js` bundle too.
+
+  * The `AppComponent` itself has its own html template and css file. WebPack loads them with calls to `require()`. 
+  Webpack stashes those component-scoped files in the `app.js` bundle too.
+  We don't see those calls in our source code; they're added behind the scenes by the `angular2-template-loader` plug-in. 
   
   * The `vendor.ts` consists of vendor dependency `import` statements that drive the `vendor.js` bundle.
   The application imports these modules too; they'd be duplicated in the `app.js` bundle

@@ -54,6 +54,7 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
     '___platform_browser_private_types__',
     '___platform_browser_dynamic_private__',
     '___platform_browser_dynamic_private_types__',
+    '___core_private_testing_types__',
     '___compiler_private__',
     '__core_private__',
     '___core_private__'
@@ -62,10 +63,9 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
   readTypeScriptModules.sourceFiles = [
     '@angular/common/index.ts',
     '@angular/common/testing.ts',
-    '@angular/compiler/index.ts',
-    '@angular/compiler/testing.ts',
     '@angular/core/index.ts',
     '@angular/core/testing.ts',
+    '@angular/forms/index.ts',
     '@angular/http/index.ts',
     '@angular/http/testing.ts',
     '@angular/platform-browser/index.ts',
@@ -138,6 +138,12 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
   });
 
   computePathsProcessor.pathTemplates.push({
+    docTypes: ['api-list-audit'],
+    pathTemplate: 'api-list-audit.json',
+    outputPathTemplate: '${path}'
+  });
+
+  computePathsProcessor.pathTemplates.push({
     docTypes: ['cheatsheet-data'],
     pathTemplate: '../guide/cheatsheet.json',
     outputPathTemplate: '${path}'
@@ -157,8 +163,7 @@ module.exports = new Package('angular.io', [basePackage, targetPackage, cheatshe
   ]));
 })
 
-.config(function(filterUnwantedDecorators, log) {
-  log.level = 'info';
+.config(function(filterUnwantedDecorators) {
   filterUnwantedDecorators.decoratorsToIgnore = [
     'CONST',
     'IMPLEMENTS',

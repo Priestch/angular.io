@@ -1,9 +1,6 @@
-// #docplaster
-// #docregion, variables-imports
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
-// #enddocregion variables-imports
-import { RouteParams } from '@angular/router-deprecated';
+// #docregion
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { Hero }        from './hero';
 import { HeroService } from './hero.service';
@@ -13,48 +10,30 @@ import { HeroService } from './hero.service';
   templateUrl: 'app/hero-detail.component.html',
   styleUrls: ['app/hero-detail.component.css']
 })
-// #docregion variables-imports
 export class HeroDetailComponent implements OnInit {
-  @Input() hero: Hero;
-  @Output() close = new EventEmitter();
-  error: any;
-  navigated = false; // true if navigated here
-  // #enddocregion variables-imports
+  hero: Hero;
 
   constructor(
     private heroService: HeroService,
-    private routeParams: RouteParams) {
+    private route: ActivatedRoute) {
   }
 
-  // #docregion ngOnInit
-  ngOnInit() {
-    if (this.routeParams.get('id') !== null) {
-      let id = +this.routeParams.get('id');
-      this.navigated = true;
+  ngOnInit(): void {
+    this.route.params.forEach((params: Params) => {
+      let id = +params['id'];
       this.heroService.getHero(id)
-          .then(hero => this.hero = hero);
-    } else {
-      this.navigated = false;
-      this.hero = new Hero();
-    }
+        .then(hero => this.hero = hero);
+    });
   }
-  // #enddocregion ngOnInit
+
   // #docregion save
-  save() {
-    this.heroService
-        .save(this.hero)
-        .then(hero => {
-          this.hero = hero; // saved hero, w/ id if new
-          this.goBack(hero);
-        })
-        .catch(error => this.error = error); // TODO: Display error message
+  save(): void {
+    this.heroService.update(this.hero)
+      .then(this.goBack);
   }
   // #enddocregion save
-  // #docregion goback
-  goBack(savedHero: Hero = null) {
-    this.close.emit(savedHero);
-    if (this.navigated) { window.history.back(); }
-  }
-  // #enddocregion goback
-}
 
+  goBack(): void {
+    window.history.back();
+  }
+}

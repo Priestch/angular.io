@@ -1,23 +1,26 @@
 <!-- #docregion -->
 <h2>My Heroes</h2>
-<ul class="heroes">
-  <li *ngFor="let hero of heroes" (click)="onSelect(hero)" [class.selected]="hero === selectedHero">
-    <span class="hero-element">
-      <span class="badge">{{hero.id}}</span> {{hero.name}}
-    </span>
-<!-- #docregion delete-hero -->
-    <button class="delete-button" (click)="delete(hero, $event)">Delete</button>
-<!-- #enddocregion delete-hero -->
-  </li>
-</ul>
-
-<!-- #docregion add-hero -->
-<button (click)="addHero()">Add New Hero</button>
-<div *ngIf="addingHero">
-  <my-hero-detail (close)="close($event)"></my-hero-detail>
+<!-- #docregion add -->
+<div>
+  <label>Hero name:</label> <input #heroName />
+  <button (click)="add(heroName.value); heroName.value=''">
+    Add
+  </button>
 </div>
-<!-- #enddocregion add-hero -->
-
+<!-- #enddocregion add -->
+<ul class="heroes">
+  <!-- #docregion li-element -->
+  <li *ngFor="let hero of heroes" (click)="onSelect(hero)"
+      [class.selected]="hero === selectedHero">
+    <span class="badge">{{hero.id}}</span>
+    <span>{{hero.name}}</span>
+    <!-- #docregion delete -->
+    <button class="delete"
+      (click)="delete(hero); $event.stopPropagation()">x</button>
+    <!-- #enddocregion delete -->
+  </li>
+  <!-- #enddocregion li-element -->
+</ul>
 <div *ngIf="selectedHero">
   <h2>
     {{selectedHero.name | uppercase}} is my hero

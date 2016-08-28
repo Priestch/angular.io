@@ -1,8 +1,9 @@
 // #docregion
 import { Component } from '@angular/core';
-// #docregion import-hero
+
+// #docregion import
 import { Hero } from './hero';
-// #enddocregion import-hero
+// #enddocregion import
 
 @Component({
   selector: 'my-app',
@@ -32,5 +33,3 @@ export class AppComponent {
   myHero = this.heroes[0];
   // #enddocregion heroes
 }
-// #enddocregion class
-// #enddocregion

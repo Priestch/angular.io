@@ -1,5 +1,10 @@
 include ../_util-fns
 
+.alert.is-important
+  :marked
+    We are still preparing style recommendations for the new NgModules feature
+    introduced in RC5 and will add it to the style guide soon.
+
 :marked
   Welcome to the Angular 2 Style Guide
 
@@ -56,14 +61,13 @@ a(id='toc')
     1. [Services](#services)
     1. [Data Services](#data-services)
     1. [Lifecycle Hooks](#lifecycle-hooks)
-    1. [Routing](#routing)
     1. [Appendix](#appendix)
 
 .l-main-section
 :marked
   ## Single Responsibility
 
-  We apply the [Single Responsibility Principle](https:\/\/en.wikipedia.org/wiki/Single_responsibility_principle) to all Components, Services, and other symbols we create. This helps make our app cleaner, easier to read and maintain, and more testable.
+  We apply the [Single Responsibility Principle](https://wikipedia.org/wiki/Single_responsibility_principle) to all Components, Services, and other symbols we create. This helps make our app cleaner, easier to read and maintain, and more testable.
 
   ### <a id="01-01"></a>Rule of One
   #### <a href="#01-01">Style 01-01</a>
@@ -97,6 +101,7 @@ a(id='toc')
 
 +makeTabs(
   `style-guide/ts/01-01/main.ts,
+  style-guide/ts/01-01/app/app.module.ts,
   style-guide/ts/01-01/app/app.component.ts,
   style-guide/ts/01-01/app/heroes/heroes.component.ts,
   style-guide/ts/01-01/app/heroes/shared/hero.service.ts,
@@ -104,6 +109,7 @@ a(id='toc')
   style-guide/ts/01-01/app/heroes/shared/mock-heroes.ts`,
   '',
   `main.ts,
+  app/app.module.ts,
   app/app.component.ts,
   app/heroes/heroes.component.ts,
   app/heroes/shared/hero.service.ts,
@@ -651,20 +657,43 @@ a(href="#toc") Back to top
 
 .s-rule.do
   :marked
-    **Do** use uppercase with underscores when naming constants.
+    **Do** declare variables with `const` if their values should not change during the application lifetime.
 
 .s-why
   :marked
-    **Why?** Follows conventional thinking for constants.
+    **Why?** Conveys to readers that the value is invariant.
 
 .s-why.s-why-last
   :marked
-    **Why?** Constants can easily be identified.
+    TypeScript helps enforce that intent by requiring immediate initialization and by
+    preventing subsequent re-assignment.
+    
+.s-rule.consider
+  :marked
+    **Consider** spelling `const` variables in lower camel case.
 
-+makeExample('style-guide/ts/03-02/app/shared/data.service.avoid.ts', 'example', 'app/shared/data.service.ts')(avoid=1)
-:marked
+.s-why
+  :marked
+    **Why?** lower camel case variable names (`heroRoutes`) are easier to read and understand
+    than the traditional UPPER_SNAKE_CASE names (`HERO_ROUTES`).
 
-+makeExample('style-guide/ts/03-02/app/shared/data.service.ts', 'example', 'app/shared/data.service.ts')
+.s-why.s-why-last
+  :marked
+    **Why?** The tradition of naming constants in UPPER_SNAKE_CASE reflects
+    an era before the modern IDEs that quickly reveal the `const` declaration.
+    TypeScript itself prevents accidental reassignment. 
+    
+.s-rule.do
+  :marked
+    **Do** tolerate _existing_ `const` variables that are spelled in UPPER_SNAKE_CASE.
+
+.s-why.s-why-last
+  :marked
+    **Why?** Although we recommend creating _new_ constants in lower camel case,
+    the tradition of UPPER_SNAKE_CASE remains popular and pervasive,
+    especially in third party modules.
+
++makeExample('style-guide/ts/03-02/app/shared/data.service.ts', '', 'app/shared/data.service.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -1222,10 +1251,10 @@ a(href="#toc") Back to top
     .file ...
 :marked
 
-+makeExample('style-guide/ts/04-10/app/+heroes/heroes.component.avoid.ts', 'example', 'app/+heroes/heroes.component.ts')(avoid=1)
++makeExample('style-guide/ts/04-10/app/heroes/heroes.component.avoid.ts', 'example', 'app/heroes/heroes.component.ts')(avoid=1)
 :marked
 
-+makeExample('style-guide/ts/04-10/app/+heroes/heroes.component.ts', 'example', 'app/+heroes/heroes.component.ts')
++makeExample('style-guide/ts/04-10/app/heroes/heroes.component.ts', 'example', 'app/heroes/heroes.component.ts')
 :marked
 
 a(href="#toc") Back to top
@@ -1846,48 +1875,6 @@ a(href="#toc") Back to top
 :marked
 
 +makeExample('style-guide/ts/09-01/app/heroes/shared/hero-button/hero-button.component.ts', 'example', 'app/heroes/shared/hero-button/hero-button.component.ts')
-:marked
-
-a(href="#toc") Back to top
-
-.l-main-section
-:marked
-  ## Routing
-
-  Client-side routing is important for creating a navigation flow between a component tree hierarchy, and composing components that are made of many other child components.
-
-a(href="#toc") Back to top
-
-.l-main-section
-:marked
-  ### <a id="10-01"></a>Component Router
-  #### <a href="#10-01">Style 10-01</a>
-
-.s-rule.do
-  :marked
-    **Do** separate route configuration into a routing component file, also known as a component router.
-
-.s-rule.do
-  :marked
-    **Do** use a `<router-outlet>` in the component router, where the routes will have their component targets display their templates.
-
-.s-rule.do
-  :marked
-    **Do** focus the logic in the component router to the routing aspects and its target components.
-
-.s-rule.do
-  :marked
-    **Do** extract other logic to services and other components.
-
-.s-why
-  :marked
-    **Why?** A component that handles routing is known as the component router, thus this follows the Angular 2 routing pattern.
-
-.s-why.s-why-last
-  :marked
-    **Why?** The `<router-outlet>` indicates where the template should be displayed for the target route.
-
-+makeExample('style-guide/ts/10-01/app/app.component.ts', '', 'app/app.component.ts')
 :marked
 
 a(href="#toc") Back to top
